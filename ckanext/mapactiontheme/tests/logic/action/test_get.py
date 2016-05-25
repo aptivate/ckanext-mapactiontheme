@@ -26,25 +26,25 @@ class TestPackageShow(GetTestBase):
         super(TestPackageShow, self).setup()
 
         self.parent = helpers.call_action('package_create',
-                                          name='ma001-01')
+                                          name='ma001-1')
 
         self.v2 = helpers.call_action('package_create',
-                                      name='ma001-01-02',
+                                      name='ma001-1-2',
                                       extras=[{'key': 'versionNumber',
-                                               'value': '02'}])
+                                               'value': '2'}])
 
         self.v1 = helpers.call_action('package_create',
-                                      name='ma001-01-01',
+                                      name='ma001-1-1',
                                       extras=[{'key': 'versionNumber',
-                                               'value': '01'}])
+                                               'value': '1'}])
 
-        self.v3 = helpers.call_action('package_create',
-                                      name='ma001-01-03',
+        self.v10 = helpers.call_action('package_create',
+                                      name='ma001-1-10',
                                       extras=[{'key': 'versionNumber',
-                                               'value': '03'}])
+                                               'value': '10'}])
 
         helpers.call_action('package_relationship_create',
-                            subject=self.v3['id'],
+                            subject=self.v10['id'],
                             type='child_of',
                             object=self.parent['id'])
 
@@ -62,7 +62,7 @@ class TestPackageShow(GetTestBase):
         dataset = helpers.call_action('package_show',
                                       id=self.parent['id'])
 
-        assert_equals(dataset['name'], self.v3['name'])
+        assert_equals(dataset['name'], self.v10['name'])
 
     def test_child_version_displayed_when_showing_child(self):
         dataset = helpers.call_action('package_show',
@@ -74,7 +74,7 @@ class TestPackageShow(GetTestBase):
         dataset = helpers.call_action('package_show',
                                       id=self.parent['id'])
 
-        assert_equals(dataset['versions'], [self.v3['name'],
+        assert_equals(dataset['versions'], [self.v10['name'],
                                             self.v2['name'],
                                             self.v1['name']])
 
@@ -82,6 +82,6 @@ class TestPackageShow(GetTestBase):
         dataset = helpers.call_action('package_show',
                                       id=self.v2['id'])
 
-        assert_equals(dataset['versions'], [self.v3['name'],
+        assert_equals(dataset['versions'], [self.v10['name'],
                                             self.v2['name'],
                                             self.v1['name']])

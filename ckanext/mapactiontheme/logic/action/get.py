@@ -79,4 +79,4 @@ def _get_ordered_dataset_versions(context, child_names):
 
 def _get_version(version):
     extras_dict = {e['key']: e['value'] for e in version['extras']}
-    return extras_dict['versionNumber']
+    return int(extras_dict['versionNumber'])
