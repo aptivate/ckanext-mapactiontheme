@@ -2,8 +2,6 @@ import pylons.config as config
 import ckan.plugins as plugins
 import ckan.plugins.toolkit as toolkit
 
-import ckanext.mapactiontheme.logic.action.get
-
 
 def group_name():
     '''Allows renaming of "Group"
@@ -181,19 +179,11 @@ def authorized(context, data_dict=None):
 
 
 class MapactionthemePlugin(plugins.SingletonPlugin):
-    plugins.implements(plugins.IActions)
     plugins.implements(plugins.IAuthFunctions)
     plugins.implements(plugins.IConfigurer)
     plugins.implements(plugins.IFacets, inherit=True)
     plugins.implements(plugins.IRoutes, inherit=True)
     plugins.implements(plugins.ITemplateHelpers)
-
-    # IActions
-    def get_actions(self):
-        return {
-            'package_show':
-            ckanext.mapactiontheme.logic.action.get.package_show
-        }
 
     # IFacets
     def dataset_facets(self, facets_dict, package_type):
