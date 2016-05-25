@@ -5,27 +5,78 @@ from ckan.logic.action.get import package_show as ckan_package_show
 
 
 def package_show(context, data_dict):
-    parent = ckan_package_show(context, data_dict)
+    this_dataset = ckan_package_show(context, data_dict)
 
+    versions = []
+
+    child_names = _get_child_dataset_names(context, this_dataset['id'])
+
+    if len(child_names) > 0:
+        versions = _get_ordered_dataset_versions(context, child_names)
+
+        # Show the most recent
+        version_to_display = versions[0]
+    else:
+        # No children so we must be looking at a particular version
+        version_to_display = this_dataset
+
+        # To get all the versions, we first need the parent
+        parent_names = _get_parent_dataset_names(context, this_dataset['id'])
+
+        if len(parent_names) > 0:
+            child_names = _get_child_dataset_names(context, parent_names[0])
+
+            versions = _get_ordered_dataset_versions(context, child_names)
+
+    version_to_display['versions'] = [v['name'] for v in versions]
+
+    return version_to_display
+
+
+def _get_child_dataset_names(context, parent_id):
     children = []
 
     try:
         children = toolkit.get_action('package_relationships_list')(
             context,
-            data_dict={'id': parent['id'],
+            data_dict={'id': parent_id,
                        'rel': 'parent_of'})
     except logic.NotFound:
         pass
 
-    latest_version = parent
-    highest_version_number = 0
+    return _get_names_from_relationships(children)
 
-    for child in children:
-        data_dict['id'] = child['object']
-        version = ckan_package_show(context, data_dict)
-        extras_dict = {e['key']: e['value'] for e in version['extras']}
-        if extras_dict['versionnumber'] > highest_version_number:
-            latest_version = version
-            highest_version_number = extras_dict['versionnumber']
 
-    return latest_version
+def _get_parent_dataset_names(context, child_id):
+    parents = []
+
+    try:
+        parents = toolkit.get_action('package_relationships_list')(
+            context,
+            data_dict={'id': child_id,
+                       'rel': 'child_of'})
+    except logic.NotFound:
+        pass
+
+    return _get_names_from_relationships(parents)
+
+
+def _get_names_from_relationships(relationships):
+    return [r['object'] for r in relationships]
+
+
+def _get_ordered_dataset_versions(context, child_names):
+    versions = []
+
+    for name in child_names:
+        data_dict = {'id': name}
+        versions.append(ckan_package_show(context, data_dict))
+
+    versions.sort(key=_get_version, reverse=True)
+
+    return versions
+
+
+def _get_version(version):
+    extras_dict = {e['key']: e['value'] for e in version['extras']}
+    return extras_dict['versionnumber']

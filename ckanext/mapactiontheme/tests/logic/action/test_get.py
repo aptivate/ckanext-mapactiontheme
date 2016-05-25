@@ -28,20 +28,25 @@ class TestPackageShow(GetTestBase):
         self.parent = helpers.call_action('package_create',
                                           name='ma001-01')
 
-        self.v1 = helpers.call_action('package_create',
-                                      name='ma001-01-01',
-                                      extras=[{'key': 'versionnumber',
-                                               'value': '01'}])
-
         self.v2 = helpers.call_action('package_create',
                                       name='ma001-01-02',
                                       extras=[{'key': 'versionnumber',
                                                'value': '02'}])
 
+        self.v1 = helpers.call_action('package_create',
+                                      name='ma001-01-01',
+                                      extras=[{'key': 'versionnumber',
+                                               'value': '01'}])
+
         self.v3 = helpers.call_action('package_create',
                                       name='ma001-01-03',
                                       extras=[{'key': 'versionnumber',
                                                'value': '03'}])
+
+        helpers.call_action('package_relationship_create',
+                            subject=self.v3['id'],
+                            type='child_of',
+                            object=self.parent['id'])
 
         helpers.call_action('package_relationship_create',
                             subject=self.v1['id'],
@@ -50,11 +55,6 @@ class TestPackageShow(GetTestBase):
 
         helpers.call_action('package_relationship_create',
                             subject=self.v2['id'],
-                            type='child_of',
-                            object=self.parent['id'])
-
-        helpers.call_action('package_relationship_create',
-                            subject=self.v3['id'],
                             type='child_of',
                             object=self.parent['id'])
 
@@ -69,3 +69,19 @@ class TestPackageShow(GetTestBase):
                                       id=self.v2['id'])
 
         assert_equals(dataset['name'], self.v2['name'])
+
+    def test_other_versions_displayed_when_showing_parent(self):
+        dataset = helpers.call_action('package_show',
+                                      id=self.parent['id'])
+
+        assert_equals(dataset['versions'], [self.v3['name'],
+                                            self.v2['name'],
+                                            self.v1['name']])
+
+    def test_other_versions_displayed_when_showing_child(self):
+        dataset = helpers.call_action('package_show',
+                                      id=self.v2['id'])
+
+        assert_equals(dataset['versions'], [self.v3['name'],
+                                            self.v2['name'],
+                                            self.v1['name']])
