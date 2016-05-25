@@ -4,10 +4,10 @@
     {% set show_groups = h.show_groups_tab() and h.check_access('package_create') %}
     {% if show_groups or h.show_activity_tab() %}
       {{ h.build_nav_icon('dataset_read', _('Dataset'), id=pkg.name) }}
-    {% endif %}    
+    {% endif %}
     {% if show_groups %}
       {{ h.build_nav_icon('dataset_groups', _(h.plural_group_name()), id=pkg.name) }}
-    {% endif %}  
+    {% endif %}
     {% if h.show_activity_tab() %}
       {{ h.build_nav_icon('dataset_activity', _('Activity Stream'), id=pkg.name) }}
     {% endif %}
@@ -34,3 +34,6 @@
     {% endif %}
   {% endblock %}
 
+  {% block package_info %}
+    {% snippet 'package/snippets/info.html', pkg=pkg %}
+  {% endblock %}
