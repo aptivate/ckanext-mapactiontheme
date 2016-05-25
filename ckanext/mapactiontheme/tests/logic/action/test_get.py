@@ -30,17 +30,17 @@ class TestPackageShow(GetTestBase):
 
         self.v2 = helpers.call_action('package_create',
                                       name='ma001-01-02',
-                                      extras=[{'key': 'versionnumber',
+                                      extras=[{'key': 'versionNumber',
                                                'value': '02'}])
 
         self.v1 = helpers.call_action('package_create',
                                       name='ma001-01-01',
-                                      extras=[{'key': 'versionnumber',
+                                      extras=[{'key': 'versionNumber',
                                                'value': '01'}])
 
         self.v3 = helpers.call_action('package_create',
                                       name='ma001-01-03',
-                                      extras=[{'key': 'versionnumber',
+                                      extras=[{'key': 'versionNumber',
                                                'value': '03'}])
 
         helpers.call_action('package_relationship_create',
