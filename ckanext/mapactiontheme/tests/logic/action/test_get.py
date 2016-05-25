@@ -85,3 +85,10 @@ class TestPackageShow(GetTestBase):
         assert_equals(dataset['versions'], [self.v10['name'],
                                             self.v2['name'],
                                             self.v1['name']])
+
+    def test_tracking_summary_returned_for_parent(self):
+        dataset = helpers.call_action('package_show',
+                                      id=self.parent['id'],
+                                      include_tracking=True)
+
+        assert_true('tracking_summary' in dataset)

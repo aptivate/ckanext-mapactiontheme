@@ -12,7 +12,8 @@ def package_show(context, data_dict):
     child_names = _get_child_dataset_names(context, this_dataset['id'])
 
     if len(child_names) > 0:
-        versions = _get_ordered_dataset_versions(context, child_names)
+        versions = _get_ordered_dataset_versions(context, data_dict,
+                                                 child_names)
 
         # Show the most recent
         version_to_display = versions[0]
@@ -26,7 +27,8 @@ def package_show(context, data_dict):
         if len(parent_names) > 0:
             child_names = _get_child_dataset_names(context, parent_names[0])
 
-            versions = _get_ordered_dataset_versions(context, child_names)
+            versions = _get_ordered_dataset_versions(context, data_dict,
+                                                     child_names)
 
     version_to_display['versions'] = [v['name'] for v in versions]
 
@@ -65,11 +67,11 @@ def _get_names_from_relationships(relationships):
     return [r['object'] for r in relationships]
 
 
-def _get_ordered_dataset_versions(context, child_names):
+def _get_ordered_dataset_versions(context, data_dict, child_names):
     versions = []
 
     for name in child_names:
-        data_dict = {'id': name}
+        data_dict['id'] = name
         versions.append(ckan_package_show(context, data_dict))
 
     versions.sort(key=_get_version, reverse=True)
