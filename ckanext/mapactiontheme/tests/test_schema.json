@@ -81,48 +81,63 @@
       "display_email_name_field": "maintainer"
     },
     {
-        "field_name": "createdate", 
-        "label": "Create Date", 
-        "help_text": "This is the timestamp that the map/dataset was produced. This may have been in an offline environment. \nThis is the timestamp that will be shown on the map itself. ISO 8601 timestamp.", 
-        "required": true, 
-        "form_snippet": "datetime_tz.html", 
+        "field_name": "createdate",
+        "label": "Create Date",
+        "help_text": "This is the timestamp that the map/dataset was produced. This may have been in an offline environment. \nThis is the timestamp that will be shown on the map itself. ISO 8601 timestamp.",
+        "required": true,
+        "form_snippet": "datetime_tz.html",
         "preset": "datetime_tz"
     },
     {
-        "field_name": "methodology", 
-        "label": "Methodology", 
-        "help_text": "??", 
-        "required": false, 
-        "form_snippet": "text.html"
-    }, 
-    {
-        "field_name": "methodology_other", 
-        "label": "Methodology other", 
-        "help_text": "??", 
-        "required": false, 
+        "field_name": "methodology",
+        "label": "Methodology",
+        "help_text": "??",
+        "required": false,
         "form_snippet": "text.html"
     },
     {
-        "field_name": "datasource", 
-        "label": "Data Source", 
-        "help_text": "A description of the datasources used to produce this dataset.", 
-        "required": true, 
+        "field_name": "methodology_other",
+        "label": "Methodology other",
+        "help_text": "??",
+        "required": false,
+        "form_snippet": "text.html"
+    },
+    {
+        "field_name": "datasource",
+        "label": "Data Source",
+        "help_text": "A description of the datasources used to produce this dataset.",
+        "required": true,
         "form_snippet": "markdown.html"
     },
     {
-        "field_name": "countries", 
-        "label": "Countries", 
-        "help_text": "A comma separated list of country names (in English) to which map or dataproduct applies.\nAt present the control list of this field is here: https://github.com/mapaction/mapaction-toolbox/blob/master/arcgis10_mapping_tools/MapActionToolbars/frmConfigMain.Designer.cs (starting line 285).", 
-        "required": false, 
+        "field_name": "countries",
+        "label": "Countries",
+        "help_text": "A comma separated list of country names (in English) to which map or dataproduct applies.\nAt present the control list of this field is here: https://github.com/mapaction/mapaction-toolbox/blob/master/arcgis10_mapping_tools/MapActionToolbars/frmConfigMain.Designer.cs (starting line 285).",
+        "required": false,
         "form_snippet": "text.html"
     },
     {
-        "field_name": "glideno", 
-        "label": "Glide Number", 
-        "help_text": "This field can be a comma separated list of glidenos. This is because we do not always find that our operational responses match one-to-one with glidenos.", 
-        "required": false, 
+        "field_name": "principal-country-iso3",
+        "label": "Principal Country (ISO3)",
+        "help_text": "The ISO3 country for the principal disaster affected country",
+        "required": false,
         "form_snippet": "text.html"
-    } 
+    },
+    {
+        "field_name": "country-iso3",
+        "preset": "repeating_text",
+        "label": "Country (ISO3)",
+        "help_text": "The ISO3 country code for an additional affected country",
+        "required": false,
+        "form_blanks": 3
+    },
+    {
+        "field_name": "glideno",
+        "label": "Glide Number",
+        "help_text": "This field can be a comma separated list of glidenos. This is because we do not always find that our operational responses match one-to-one with glidenos.",
+        "required": false,
+        "form_snippet": "text.html"
+    }
   ],
   "resource_fields": [
     {
@@ -148,4 +163,3 @@
     }
   ]
 }
-

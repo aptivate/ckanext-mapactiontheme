@@ -181,6 +181,28 @@ class TestUpdateForSyndication(custom_helpers.FunctionalTestBaseClass):
             ]
         )
 
+    def test_groups_set_from_principal_and_iso3_countries(self):
+        metadata = {
+            'createdate': '2016-02-08T12:18:24+01:30',
+            'datasource': 'Test',  # Required value
+            'principal-country-iso3': 'KEN',
+            'country-iso3': ['RWA', 'TZA'],
+        }
+
+        dataset_dict = custom_factories.Dataset(**metadata)
+
+        updated_dict = helpers.call_action('update_dataset_for_syndication',
+                                           dataset_dict=dataset_dict)
+
+        assert_equal(
+            updated_dict['groups'],
+            [
+                {'id': 'ken'},
+                {'id': 'rwa'},
+                {'id': 'tza'},
+            ]
+        )
+
     def test_methodology_set_to_other(self):
         updated_dict = helpers.call_action('update_dataset_for_syndication',
                                            dataset_dict={})

@@ -276,28 +276,46 @@ def update_dataset_for_hdx_syndication(context, data_dict):
 
 
 def _get_group_ids(dataset_dict):
-    group_ids = []
+    principal_country = dataset_dict.get('principal-country-iso3')
+    additional_countries = dataset_dict.get('country-iso3', [])
+
+    if principal_country is not None:
+        countries = [principal_country] + additional_countries
+
+        return _get_group_ids_from_iso3_countries(countries)
 
     countries = dataset_dict.get('countries')
 
     if countries is not None:
-        for country_name in countries.split(','):
-            cleaned_name = country_name.strip().title()
-            country = None
+        return _get_group_ids_from_legacy_countries(countries)
 
+    return []
+
+
+def _get_group_ids_from_iso3_countries(countries):
+    return [{'id': c.lower()} for c in countries]
+
+
+def _get_group_ids_from_legacy_countries(countries):
+    group_ids = []
+
+    for country_name in countries.split(','):
+        cleaned_name = country_name.strip().title()
+        country = None
+
+        try:
+            country = pycountry.countries.get(
+                name=cleaned_name)
+        except KeyError:
             try:
                 country = pycountry.countries.get(
-                    name=cleaned_name)
+                    common_name=cleaned_name)
             except KeyError:
-                try:
-                    country = pycountry.countries.get(
-                        common_name=cleaned_name)
-                except KeyError:
-                    pass
+                pass
 
-            if country is not None:
-                group_ids.append(
-                    {'id': country.alpha3.lower()})
+        if country is not None:
+            group_ids.append(
+                {'id': country.alpha3.lower()})
 
     if group_ids == []:
         group_ids.append({'id': 'world'})
