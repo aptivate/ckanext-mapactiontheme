@@ -61,7 +61,7 @@ setup(
     # https://packaging.python.org/en/latest/technical.html#install-requires-vs-requirements-files
     install_requires=[
         'pycountry==1.20',
-        'requests==2.7.0',
+        'requests',
     ],
 
     # If there are data files included in your packages that need to be
