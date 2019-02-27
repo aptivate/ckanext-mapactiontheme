@@ -16,7 +16,7 @@
               {% block heading_private %}
                 {% if package.private %}
                   <span class="dataset-private label label-inverse">
-                    <i class="icon-lock"></i>
+                    <i class="fa fa-lock"></i>
                     {{ _('Private') }}
                   </span>
                 {% endif %}
@@ -56,9 +56,9 @@
                     <li>
                       <a href="{{ resource.url }}" class="label" data-format="{{ resource.format|lower }}">{{ resource.format or _("View") }}
                       {% if resource.url_type == "upload" %}
-                         <i class="icon-download"></i>
+                         <i class="fa fa-download"></i>
                       {% else %}
-                         <i class="icon-link"></i>
+                         <i class="fa fa-link"></i>
                       {% endif %}
                       </a>
                     </li>
