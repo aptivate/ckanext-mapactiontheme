@@ -141,9 +141,19 @@
 		{% endif %}
     </nav>
 </header>
-<header class="navbar masthead">
+<header class="navbar masthead search">
   <div class="nav-collapse collapse">
     {% block header_site_navigation %}
+        <nav class="section navigation">
+          <ul class="nav nav-pills">
+            {% block header_site_navigation_tabs %}
+              {{ h.build_nav_main(
+                ('location_index', _('Locations')),
+                ('event_index', _('Events')),
+              ) }}
+            {% endblock %}
+          </ul>
+        </nav>
     {% endblock %}
 
     {% block header_site_search %}

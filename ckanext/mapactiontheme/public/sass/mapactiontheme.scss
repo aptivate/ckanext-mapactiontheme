@@ -95,13 +95,16 @@ label.site-navigation-toggle-label:after {
     background: white;
 }
 
-
-.masthead .nav-collapse {
-    padding-top: 32px;
+.masthead.search {
+    margin-top: 30px;
+    background: $primary-blue;
 }
 
-.masthead .site-search input {
-    width: 260px;
+.masthead .site-search {
+    float: right;
+    input {
+        width: 260px;
+    }
 }
 
 .toolbar {
