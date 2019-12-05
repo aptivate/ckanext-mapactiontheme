@@ -174,16 +174,21 @@ label.site-navigation-toggle-label:after {
     padding-left: 20px;
 }
 
+
 [role="main"] {
     background: #ffffff;
     padding-top: 0px;
     box-sizing: content-box;
     font-size:14px;
+    .container {
+        width: 100%;
+    }
 }
 
 .wrapper {
     border: 0;
     box-shadow: none;
+    background-image: none;
 }
 
 .dataset-list-thumbnail {

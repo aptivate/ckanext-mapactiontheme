@@ -484,10 +484,13 @@ label.site-navigation-toggle-label:after {
   padding-top: 0px;
   box-sizing: content-box;
   font-size: 14px; }
+  [role="main"] .container {
+    width: 100%; }
 
 .wrapper {
   border: 0;
-  box-shadow: none; }
+  box-shadow: none;
+  background-image: none; }
 
 .dataset-list-thumbnail {
   clear: left;
