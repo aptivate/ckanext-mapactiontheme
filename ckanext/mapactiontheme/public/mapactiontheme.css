@@ -457,12 +457,7 @@ label.site-navigation-toggle-label:after {
   margin-bottom: 4px; }
 
 .toolbar .breadcrumb {
-  font-family: arial,verdana,helvetica,sans-serif;
-  color: #333;
-  margin-left: 20px;
-  line-height: 30px;
-  font-size: 12.5px;
-  background: #ffffff; }
+  display: none; }
 
 .toolbar .home a:hover {
   text-decoration: underline; }
