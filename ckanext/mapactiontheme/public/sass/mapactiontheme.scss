@@ -107,10 +107,10 @@ label.site-navigation-toggle-label:after {
         float: left;
         margin-left: 20px;
         .nav > li > a {
-            background-color: $secondary-blue; 
+            background-color: $primary-blue; 
         }
         .nav > .active > a {
-            background-color: $primary-blue; 
+            background-color: $secondary-blue; 
         }
         .nav > li.active {
             position: relative;
@@ -125,7 +125,7 @@ label.site-navigation-toggle-label:after {
             height: 0;
             border-style: solid;
             border-width: 15px 15px 0 15px;
-            border-color: $primary-blue transparent transparent transparent;
+            border-color: $secondary-blue transparent transparent transparent;
         }
     }
 }
