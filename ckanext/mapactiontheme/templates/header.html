@@ -147,9 +147,9 @@
         <nav class="section navigation">
           <ul class="nav">
             {% block header_site_navigation_tabs %}
-              {{ h.build_nav_main(
-                ('location_index', _('Locations')),
-                ('event_index', _('Events')),
+              {{ h.build_nav_group(
+                ('location', 'index', _('Locations')),
+                ('event', 'index', _('Events')),
               ) }}
             {% endblock %}
           </ul>
