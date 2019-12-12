@@ -196,6 +196,12 @@ def nav_menu_this_id():
     value = config.get('ckan.mapactiontheme.nav_menu_this_id')
     return int(value)
 
+def get_controller_class():
+    from ckan.common import c
+    '''Return controller name for CSS class usage'''
+    parts = c.controller.split(':')
+    return str(parts[1])
+
 
 def _make_group_link(group_type, route_name, title, **kw):
     ''' build a custom group link active for the current controller
@@ -453,4 +459,5 @@ class MapactionthemePlugin(plugins.SingletonPlugin):
                 endpoint_setting='ckan.mapactiontheme.footer_widget_api'
             ),
             'build_nav_group': build_nav_group,
+            'get_controller_class': get_controller_class,
         }
