@@ -200,7 +200,7 @@ def get_controller_class():
     from ckan.common import c
     '''Return controller name for CSS class usage'''
     parts = c.controller.split(':')
-    return str(parts[1])
+    return str(parts[-1])
 
 
 def _make_group_link(group_type, route_name, title, **kw):
