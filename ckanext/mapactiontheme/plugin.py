@@ -14,7 +14,6 @@ from webhelpers.html import literal
 
 import ckan.plugins as plugins
 import ckan.plugins.toolkit as toolkit
-from ckan.logic.schema import default_create_package_schema
 
 from functools import partial
 
@@ -300,14 +299,7 @@ def authorized(context, data_dict=None):
 
 
 def update_dataset_for_hdx_syndication(context, data_dict):
-    default_schema = default_create_package_schema()
     dataset_dict = data_dict['dataset_dict']
-
-    # Copy only the default schema fields and values
-    syndicated_dataset = dict(
-        (k, dataset_dict[k]) for k in default_schema.keys()
-        if k in dataset_dict
-    )
 
     # Set creation date in HDX format
     try:
