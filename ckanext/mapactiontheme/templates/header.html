@@ -33,7 +33,7 @@
                 {% block header_account_log_out_link %}
                 <li>
                   <a href="{{ h.url_for('/user/_logout') }}" title="{{ _('Log out') }}">
-                    <i class="fa fa-signout" aria-hidden="true"></i>
+                    <i class="fa fa-sign-out" aria-hidden="true"></i>
                     <span class="text">{{ _('Log out') }}</span>
                   </a>
                 </li>
@@ -141,9 +141,19 @@
 		{% endif %}
     </nav>
 </header>
-<header class="navbar masthead">
+<header class="navbar masthead search">
   <div class="nav-collapse collapse">
     {% block header_site_navigation %}
+        <nav class="section navigation">
+          <ul class="nav">
+            {% block header_site_navigation_tabs %}
+              {{ h.build_nav_group(
+                ('location', 'index', _('Locations')),
+                ('event', 'index', _('Events')),
+              ) }}
+            {% endblock %}
+          </ul>
+        </nav>
     {% endblock %}
 
     {% block header_site_search %}

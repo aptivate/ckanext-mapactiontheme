@@ -6,4 +6,4 @@
 {% endblock %}
 
 {# Add a controller-action class to the body tag to allow page specific styles #}
-{% block bodytag %} {{ super() }} class="{{ c.controller }}-{{ c.action }}" {% endblock %}
+{% block bodytag %} {{ super() }} class="{{ h.get_controller_class() }} ckan_{{ c.action }}" {% endblock %}

@@ -5,3 +5,20 @@
         {{ super() }}
     </div><!-- class="page" -->
 {% endblock %}
+
+
+{% block primary %}
+    <div class="primary span10">
+        {% block primary_content %}
+            {{ super() }}
+        {% endblock %}
+    </div>
+{% endblock %}
+
+{% block secondary %}
+  <aside class="secondary span4">
+    {% block secondary_content %}
+        {{ super() }}
+    {% endblock %}
+  </aside>
+{% endblock %}

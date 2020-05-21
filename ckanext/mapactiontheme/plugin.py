@@ -1,11 +1,16 @@
 import dateutil.parser
+import copy
+
+
 from datetime import datetime
 
 import pycountry
 
 import pylons.config as config
 
-from ckan.lib.helpers import get_pkg_dict_extra
+from ckan.lib.helpers import get_pkg_dict_extra, build_nav, _link_to
+import ckan.lib.plugins as lib_plugins
+from webhelpers.html import literal
 
 import ckan.plugins as plugins
 import ckan.plugins.toolkit as toolkit
@@ -194,6 +199,66 @@ def nav_menu_this_id():
     value = config.get('ckan.mapactiontheme.nav_menu_this_id')
     return int(value)
 
+def get_controller_class():
+    from ckan.common import c
+    '''Return controller name for CSS class usage'''
+    parts = c.controller.split(':')
+    return str(parts[-1])
+
+
+def _make_group_link(group_type, route_name, title, **kw):
+    ''' build a custom group link active for the current controller
+
+    outputs <li><a href="..."></i> title</a></li>
+
+    :param group_type: group_type for controller
+    :type group_type: string
+    :param route_name: the name of the route to link to, eg 'index'
+    :type route_name: string
+    :param title: text used for the link
+    :type title: string
+    :param **kw: additional keywords needed for creating url eg id=...
+
+    :rtype: HTML literal
+
+    This function is called by wrapper functions.
+    '''
+
+    def _link_active(kwargs):
+        ''' Active if this is the the controller for the group '''
+        from ckan.common import c
+        return (c.controller == kwargs.get('controller'))
+
+    group_plugin = lib_plugins.lookup_group_plugin(group_type)
+    import sys; print >>sys.stderr, 'group_plugin: ', group_plugin
+    group_types = config['routes.named_routes']
+
+    menu_item = '%s_%s' % (group_type, route_name)
+    _menu_items = config['routes.named_routes']
+    if menu_item not in _menu_items:
+        raise Exception('menu item `%s` cannot be found' % menu_item)
+
+    item = copy.copy(_menu_items[menu_item])
+    item.update(kw)
+    active = _link_active(item)
+    needed = item.pop('needed')
+    for need in needed:
+        if need not in kw:
+            raise Exception('menu item `%s` need parameter `%s`'
+                            % (menu_item, need))
+    link = _link_to(title, menu_item, suppress_active_class=True, **item)
+    if active:
+        return literal('<li class="active">') + link + literal('</li>')
+    return literal('<li>') + link + literal('</li>')
+
+def build_nav_group(*args):
+    '''A navigation menu for custom group controllers
+    '''
+    output = ''
+    for item in args:
+        group_type, route_name, title = item[:3]
+        output += _make_group_link(group_type, route_name, title)
+    return output
 
 def wp_json_api(endpoint_setting):
     import requests
@@ -393,4 +458,6 @@ class MapactionthemePlugin(plugins.SingletonPlugin):
                 wp_json_api,
                 endpoint_setting='ckan.mapactiontheme.footer_widget_api'
             ),
+            'build_nav_group': build_nav_group,
+            'get_controller_class': get_controller_class,
         }
