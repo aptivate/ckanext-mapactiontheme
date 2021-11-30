@@ -228,7 +228,30 @@ class TestUpdateForSyndication(custom_helpers.FunctionalTestBaseClass):
 
         assert_equal(
             updated_dict['data_update_frequency'],
-            '0')
+            'Never')
+
+    def test_update_frequency_set_to_valid_value(self):
+        updated_dict = helpers.call_action('update_dataset_for_syndication',
+                                           dataset_dict={
+                                               'extras': [
+                                                {'key': 'data_update_frequency',
+                                                 'value': 'Every week'}]})
+
+        assert_equal(
+            updated_dict['data_update_frequency'],
+            'Every week')
+
+    def test_update_frequency_set_to_invalid_value(self):
+        updated_dict = helpers.call_action('update_dataset_for_syndication',
+                                           dataset_dict={
+                                               'extras': [
+                                                {'key': 'data_update_frequency',
+                                                 'value': 'Every seven weeks'}]
+                                           })
+
+        assert_equal(
+            updated_dict['data_update_frequency'],
+            'Never')
 
     def test_tags_removed(self):
         updated_dict = helpers.call_action('update_dataset_for_syndication',
