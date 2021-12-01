@@ -253,6 +253,13 @@ class TestUpdateForSyndication(custom_helpers.FunctionalTestBaseClass):
             updated_dict['data_update_frequency'],
             'Never')
 
+    def test_update_frequency_no_extras(self):
+        updated_dict = helpers.call_action('update_dataset_for_syndication',
+                                           dataset_dict={})
+        assert_equal(
+            updated_dict['data_update_frequency'],
+            'Never')
+
     def test_tags_removed(self):
         updated_dict = helpers.call_action('update_dataset_for_syndication',
                                            dataset_dict={'tags': []})

@@ -344,20 +344,13 @@ def update_dataset_for_hdx_syndication(context, data_dict):
 
     syndicated_dataset['groups'] = _get_group_ids(dataset_dict)
 
-    try:
-        # some tests throw errors since they dont have extras
-        data_extras = dataset_dict.get('extras')
-        extras_dict = dict([(x['key'], x['value']) for x in data_extras])
-    except TypeError:
-        extras_dict = {'data_update_frequency': 'Never'}
+    frequency = 'Never'
+    data_extras = dataset_dict.get('extras', {})
+    for extra in data_extras:
+        if extra['key'] == 'data_update_frequency' and extra['value'] in EXPECTED_UPDATE_FREQUENCY:
+            frequency = extra['value']
 
-    # Set data_update_frequency field according to
-    # https://hdx-python-api.readthedocs.io/en/latest/#expected-update-frequency
-    if extras_dict.get('data_update_frequency') in EXPECTED_UPDATE_FREQUENCY:
-        syndicated_dataset['data_update_frequency'] =\
-            extras_dict.get('data_update_frequency')
-    else:
-        syndicated_dataset['data_update_frequency'] = 'Never'
+    syndicated_dataset['data_update_frequency'] = frequency
 
     syndicated_dataset.pop('type', None)
     syndicated_dataset.pop('tags', None)
