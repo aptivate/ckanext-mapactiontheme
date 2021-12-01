@@ -14,6 +14,7 @@ from webhelpers.html import literal
 
 import ckan.plugins as plugins
 import ckan.plugins.toolkit as toolkit
+from ckan.logic.schema import default_create_package_schema
 
 from functools import partial
 
@@ -298,7 +299,21 @@ def authorized(context, data_dict=None):
     return {'success': True}
 
 
+# https://hdx-python-api.readthedocs.io/en/latest/#expected-update-frequency
+EXPECTED_UPDATE_FREQUENCY = [
+    'Every day',
+    'Every week',
+    'Every two weeks',
+    'Every month',
+    'Every three months',
+    'Every six months',
+    'Every year',
+    'Never',
+]
+
+
 def update_dataset_for_hdx_syndication(context, data_dict):
+    default_schema = default_create_package_schema()
     dataset_dict = data_dict['dataset_dict']
 
     # Set creation date in HDX format
@@ -308,6 +323,12 @@ def update_dataset_for_hdx_syndication(context, data_dict):
         dataset_date = '01/01/2003'  # Consistent with previous implementation
     else:
         dataset_date = date.strftime('%d/%m/%Y')
+
+    # Copy only the default schema fields and values
+    syndicated_dataset = dict(
+        (k, dataset_dict[k]) for k in default_schema.keys()
+        if k in dataset_dict
+    )
 
     syndicated_dataset['dataset_date'] = dataset_date
 
@@ -323,7 +344,13 @@ def update_dataset_for_hdx_syndication(context, data_dict):
 
     syndicated_dataset['groups'] = _get_group_ids(dataset_dict)
 
-    syndicated_dataset['data_update_frequency'] = '0'  # Never
+    frequency = 'Never'
+    data_extras = dataset_dict.get('extras', {})
+    for extra in data_extras:
+        if extra['key'] == 'data_update_frequency' and extra['value'] in EXPECTED_UPDATE_FREQUENCY:
+            frequency = extra['value']
+
+    syndicated_dataset['data_update_frequency'] = frequency
 
     syndicated_dataset.pop('type', None)
     syndicated_dataset.pop('tags', None)
