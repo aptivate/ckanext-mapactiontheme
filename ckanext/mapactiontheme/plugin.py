@@ -424,6 +424,17 @@ class MapactionthemePlugin(plugins.SingletonPlugin):
             '/dataset/groups/{id}',
             controller='ckanext.mapactiontheme.controllers.package:MapactionPackageController',
             action='groups')
+        map.connect(
+            '/ckan-admin/trash',
+            controller='ckanext.mapactiontheme.controllers.admin_controller:CustomAdminController',
+            action='trash'
+            )
+        map.connect(
+            '/user/edit/{id}',
+            controller='ckanext.mapactiontheme.controllers.user_controller:OverrideUserController',
+            action='edit',
+            ckan_icon='cog'
+        )
 
         return map
 
