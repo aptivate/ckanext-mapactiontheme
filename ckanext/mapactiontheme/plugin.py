@@ -316,12 +316,6 @@ def update_dataset_for_hdx_syndication(context, data_dict):
     default_schema = default_create_package_schema()
     dataset_dict = data_dict['dataset_dict']
 
-    # Copy only the default schema fields and values
-    syndicated_dataset = dict(
-        (k, dataset_dict[k]) for k in default_schema.keys()
-        if k in dataset_dict
-    )
-
     # Set creation date in HDX format
     try:
         date = dateutil.parser.parse(dataset_dict['createdate'])
@@ -337,26 +331,30 @@ def update_dataset_for_hdx_syndication(context, data_dict):
     )
 
     syndicated_dataset['dataset_date'] = dataset_date
-
-    # Set Methodology
-    methodology = dataset_dict.get('methodology')
-    if methodology is None:
-        syndicated_dataset['methodology_other'] = 'Not specified'
-    else:
-        syndicated_dataset['methodology_other'] = methodology
-    syndicated_dataset['methodology'] = 'Other'
-
     syndicated_dataset['dataset_source'] = dataset_dict.get('datasource')
 
     syndicated_dataset['groups'] = _get_group_ids(dataset_dict)
 
+    # Default Values
     frequency = 'Never'
+    methodology_other = 'Not specified'
+    methodology = 'Other'
+
     data_extras = dataset_dict.get('extras', {})
     for extra in data_extras:
+        # Set Data update frequency
         if extra['key'] == 'data_update_frequency' and extra['value'] in EXPECTED_UPDATE_FREQUENCY:
             frequency = extra['value']
+        # Set Methodology Other
+        if extra['key'] == 'methodology_other' and extra['value']:
+            methodology_other = extra['value']
+        # Set Methodology
+        if extra['key'] == 'methodology' and extra['value']:
+            methodology = extra['value']
 
     syndicated_dataset['data_update_frequency'] = frequency
+    syndicated_dataset['methodology_other'] = methodology_other
+    syndicated_dataset['methodology'] = methodology
 
     syndicated_dataset.pop('type', None)
     syndicated_dataset.pop('tags', None)
