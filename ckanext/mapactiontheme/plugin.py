@@ -316,21 +316,12 @@ def update_dataset_for_hdx_syndication(context, data_dict):
     default_schema = default_create_package_schema()
     dataset_dict = data_dict['dataset_dict']
 
-    # Set creation date in HDX format
-    try:
-        date = dateutil.parser.parse(dataset_dict['createdate'])
-    except:
-        dataset_date = '01/01/2003'  # Consistent with previous implementation
-    else:
-        dataset_date = date.strftime('%d/%m/%Y')
-
     # Copy only the default schema fields and values
     syndicated_dataset = dict(
         (k, dataset_dict[k]) for k in default_schema.keys()
         if k in dataset_dict
     )
 
-    syndicated_dataset['dataset_date'] = dataset_date
     syndicated_dataset['dataset_source'] = dataset_dict.get('datasource')
 
     syndicated_dataset['groups'] = _get_group_ids(dataset_dict)
@@ -339,6 +330,7 @@ def update_dataset_for_hdx_syndication(context, data_dict):
     frequency = 'Never'
     methodology_other = 'Not specified'
     methodology = 'Other'
+    dataset_date = '01/01/2003'
 
     data_extras = dataset_dict.get('extras', {})
     for extra in data_extras:
@@ -351,10 +343,20 @@ def update_dataset_for_hdx_syndication(context, data_dict):
         # Set Methodology
         if extra['key'] == 'methodology' and extra['value']:
             methodology = extra['value']
+        # Set Create Date
+        if extra['key'] == 'createdate' and extra['value']:
+            try:
+                date = dateutil.parser.parse(extra['value'])
+                dataset_date = date.strftime('%d/%m/%Y')
+            except ValueError:
+                # Legacy format don't enforce correct date_time format
+                # Can pass any string
+                continue
 
     syndicated_dataset['data_update_frequency'] = frequency
     syndicated_dataset['methodology_other'] = methodology_other
     syndicated_dataset['methodology'] = methodology
+    syndicated_dataset['dataset_date'] = dataset_date
 
     syndicated_dataset.pop('type', None)
     syndicated_dataset.pop('tags', None)
