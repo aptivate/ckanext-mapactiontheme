@@ -30,16 +30,16 @@ cd -
 echo "Installing ckanext-mapactiontheme dependencies..."
 echo "Installing ckanext-scheming"
 pip install -e git+https://github.com/ckan/ckanext-scheming.git@release-1.2.0#egg=ckanext-scheming
-
+pip install -r https://raw.githubusercontent.com/ckan/ckanext-scheming/release-1.2.0/requirements.txt
 echo "Installing ckanext-locationgroup"
 pip install -e git+https://github.com/aptivate/ckanext-locationgroup.git@staging#egg=ckanext-locationgroup
-
+pip install -r https://raw.githubusercontent.com/aptivate/ckanext-locationgroup/staging/requirements.txt
 echo "Installing ckanext-mapactionevent"
 pip install -e git+https://github.com/aptivate/ckanext-mapactionevent.git@staging#egg=ckanext-mapactionevent
-
+pip install -r https://raw.githubusercontent.com/aptivate/ckanext-mapactionevent/staging/requirements.txt
 echo "Installing ckanext-syndicate"
 pip install -e git+https://github.com/aptivate/ckanext-syndicate.git@v1.1.0#egg=ckanext-syndicate
-
+pip install -r https://raw.githubusercontent.com/aptivate/ckanext-syndicate/v1.1.0/requirements.txt
 echo "Installing ckanext-mapactionschemas"
 pip install -e git+https://github.com/mapaction/ckanext-mapactionschemas.git@staging#egg=ckanext-mapactionschemas
 
