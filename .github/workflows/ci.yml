@@ -1,9 +1,10 @@
+name: CI
+on: [push, pull_request]
+
 env:
   CKANVERSION: 2.7
   PYTHON_VERSION: '2.7'
 
-name: CI
-on: [push, pull_request]
 jobs:
   lint:
     runs-on: ubuntu-16.04
