@@ -1,9 +1,15 @@
 from ckan.plugins.toolkit import config
 import ckan.tests.helpers as helpers
 import ckan.tests.factories as factories
-from ckan.plugins import load
 
-class TestCustomAdminController(helpers.FunctionalTestBase):
+from ckanext.mapactiontheme.tests.helpers import FunctionalTestBaseClass
+
+
+class TestCustomAdminController(FunctionalTestBaseClass):
+    @classmethod
+    def setup_class(cls):
+        super(TestCustomAdminController, cls).setup_class()
+
     def setup(self):
         super(TestCustomAdminController, self).setup()
         self.admin = factories.User(name='adminuser', sysadmin=True)
