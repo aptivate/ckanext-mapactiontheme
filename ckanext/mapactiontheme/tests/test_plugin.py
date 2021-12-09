@@ -91,6 +91,8 @@ class TestUpdateForSyndication(custom_helpers.FunctionalTestBaseClass):
         }
 
         dataset_dict = custom_factories.Dataset(**metadata)
+        dataset_dict['extras'] = [{'key': 'createdate',
+                                   'value': '2016-02-08T12:18:24+01:30'}]
 
         updated_dict = helpers.call_action(
             'update_dataset_for_syndication',
@@ -199,10 +201,11 @@ class TestUpdateForSyndication(custom_helpers.FunctionalTestBaseClass):
         metadata = {
             'createdate': '2016-02-08T12:18:24+01:30',  # Reqired field
             'datasource': 'Test',  # Required field
-            'methodology': methodology,
         }
 
         dataset_dict = custom_factories.Dataset(**metadata)
+        dataset_dict['extras'] = [{'key': 'methodology',
+                                   'value': methodology}]
 
         updated_dict = helpers.call_action(
             'update_dataset_for_syndication',
@@ -210,7 +213,7 @@ class TestUpdateForSyndication(custom_helpers.FunctionalTestBaseClass):
         )
 
         assert_equal(
-            updated_dict['methodology_other'],
+            updated_dict['methodology'],
             methodology
         )
 
