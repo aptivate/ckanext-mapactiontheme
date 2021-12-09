@@ -3,7 +3,7 @@ on: [push, pull_request]
 
 jobs:
   lint:
-    runs-on: ubuntu-16.04
+    runs-on: ubuntu-18.04
     steps:
       - uses: actions/checkout@v2
 
@@ -17,7 +17,7 @@ jobs:
         run: flake8 . --count --select=E901,E999,F821,F822,F823 --show-source --statistics --exclude ckan
 
   test:
-    runs-on: ubuntu-16.04
+    runs-on: ubuntu-18.04
     needs: lint
     strategy:
       fail-fast: false
@@ -78,7 +78,7 @@ jobs:
 
   coveralls_finish:
     needs: test
-    runs-on: ubuntu-16.04
+    runs-on: ubuntu-18.04
     steps:
     - name: Coveralls Finished
       uses: AndreMiras/coveralls-python-action@develop
