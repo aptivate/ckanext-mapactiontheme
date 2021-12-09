@@ -1,10 +1,6 @@
 name: CI
 on: [push, pull_request]
 
-env:
-  CKANVERSION: 2.7
-  PYTHON_VERSION: '2.7'
-
 jobs:
   lint:
     runs-on: ubuntu-16.04
@@ -14,7 +10,7 @@ jobs:
       - name: Setup Python
         uses: actions/setup-python@v2
         with:
-          python-version: ${{ env.PYTHON_VERSION }}
+          python-version: '2.7'
         ports:
       - name: Install requirements
         run: pip install flake8
@@ -51,7 +47,7 @@ jobs:
           - 6379:6379
 
       ckan-solr:
-        image: ckan/ckan-solr-dev:${{ env.CKANVERSION }}
+        image: ckan/ckan-solr-dev:2.7
         ports:
           - 8983:8983
 
@@ -61,7 +57,7 @@ jobs:
       - name: Setup Python
         uses: actions/setup-python@v2
         with:
-          python-version: ${{ env.PYTHON_VERSION }}
+          python-version: '2.7'
           architecture: x64
       - name: Install nosetests
         run: |
@@ -79,7 +75,7 @@ jobs:
         uses: AndreMiras/coveralls-python-action@develop
         with:
           parallel: true
-          flag-name: Python ${{ env.PYTHON_VERSION }} Unit Test
+          flag-name: Python 2.7 Unit Test
 
   coveralls_finish:
     needs: test
