@@ -44,6 +44,7 @@ echo "Installing ckanext-mapactionschemas"
 pip install -e git+https://github.com/mapaction/ckanext-mapactionschemas.git@staging#egg=ckanext-mapactionschemas
 
 echo "Installing ckanext-mapactiontheme and its requirements..."
+pip install -r requirements.txt
 python setup.py develop
 pip install -r dev-requirements.txt
 
