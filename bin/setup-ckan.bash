@@ -12,6 +12,7 @@ git clone https://github.com/ckan/ckan
 cd ckan
 git checkout 2.7
 pip install setuptools==20.4
+pip install psycopg2==2.7.3.2
 python setup.py develop
 pip install -r requirements.txt
 pip install -r dev-requirements.txt
