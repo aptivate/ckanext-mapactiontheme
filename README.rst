@@ -5,9 +5,8 @@
 .. image:: https://github.com/aptivate/ckanext-mapactiontheme/workflows/CI/badge.svg
     :target: https://github.com/aptivate/ckanext-mapactiontheme/actions
 
-.. image:: https://coveralls.io/repos/aptivate/ckanext-mapactiontheme/ckanext-saml2auth/badge.svg
-  :target: https://coveralls.io/github/aptivate/ckanext-mapactiontheme
-
+.. image:: https://coveralls.io/repos/github/aptivate/ckanext-mapactiontheme/badge.svg
+    :target: https://coveralls.io/github/aptivate/ckanext-mapactiontheme
 
 =============
 ckanext-mapactiontheme
