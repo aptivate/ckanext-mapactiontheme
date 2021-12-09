@@ -2,31 +2,12 @@
    these badges work. The necessary Travis and Coverage config files have been
    generated for you.
 
-.. image:: https://travis-ci.org/aptivate/ckanext-mapactiontheme.svg?branch=master
-    :target: https://travis-ci.org/aptivate/ckanext-mapactiontheme
+.. image:: https://github.com/aptivate/ckanext-mapactiontheme/workflows/CI/badge.svg
+    :target: https://github.com/aptivate/ckanext-mapactiontheme/actions
 
-.. image:: https://coveralls.io/repos/aptivate/ckanext-mapactiontheme/badge.svg
-  :target: https://coveralls.io/r/aptivate/ckanext-mapactiontheme
+.. image:: https://coveralls.io/repos/aptivate/ckanext-mapactiontheme/ckanext-saml2auth/badge.svg
+  :target: https://coveralls.io/github/aptivate/ckanext-mapactiontheme
 
-.. image:: https://pypip.in/download/ckanext-mapactiontheme/badge.svg
-    :target: https://pypi.python.org/pypi//ckanext-mapactiontheme/
-    :alt: Downloads
-
-.. image:: https://pypip.in/version/ckanext-mapactiontheme/badge.svg
-    :target: https://pypi.python.org/pypi/ckanext-mapactiontheme/
-    :alt: Latest Version
-
-.. image:: https://pypip.in/py_versions/ckanext-mapactiontheme/badge.svg
-    :target: https://pypi.python.org/pypi/ckanext-mapactiontheme/
-    :alt: Supported Python versions
-
-.. image:: https://pypip.in/status/ckanext-mapactiontheme/badge.svg
-    :target: https://pypi.python.org/pypi/ckanext-mapactiontheme/
-    :alt: Development Status
-
-.. image:: https://pypip.in/license/ckanext-mapactiontheme/badge.svg
-    :target: https://pypi.python.org/pypi/ckanext-mapactiontheme/
-    :alt: License
 
 =============
 ckanext-mapactiontheme

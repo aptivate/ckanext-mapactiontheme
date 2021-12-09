@@ -1,0 +1,92 @@
+env:
+  CKANVERSION: 2.7
+  PYTHON_VERSION: '2.7'
+
+
+name: Tests
+on: [push, pull_request]
+jobs:
+  lint:
+    runs-on: ubuntu-16.04
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Setup Python
+      - uses: actions/setup-python@v2
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+        ports:
+      - name: Install requirements
+        run: pip install flake8
+      - name: Check syntax
+        run: flake8 . --count --select=E901,E999,F821,F822,F823 --show-source --statistics --exclude ckan
+
+
+  test:
+    runs-on: ubuntu-16.04
+    needs: lint
+    strategy:
+      fail-fast: false
+
+    services:
+      postgresql:
+        image: postgres:11-bullseye
+        env:
+          POSTGRES_PASSWORD: postgres
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
+
+      redis:
+        image: redis
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 6379:6379
+
+      ckan-solr:
+        image: ckan/ckan-solr-dev:${{ env.CKANVERSION }}
+        ports:
+          - 8983:8983
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Setup Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          architecture: x64
+      - name: Install nosetests
+        run: |
+          python -m pip install --upgrade pip
+          pip install nose
+       name: Setup CKAN
+        env:
+          PGPASSWORD: postgres
+        run: |
+          bash bin/setup-ckan.bash
+      - name: Test with nosetests
+        run: |
+          nosetests --nologcapture --with-pylons=test.ini ckanext/mapactiontheme/tests
+      - name: Coveralls
+        uses: AndreMiras/coveralls-python-action@develop
+        with:
+          parallel: true
+          flag-name: Python ${{ env.PYTHON_VERSION }} Unit Test
+
+  coveralls_finish:
+    needs: test
+    runs-on: ubuntu-16.04
+    steps:
+    - name: Coveralls Finished
+      uses: AndreMiras/coveralls-python-action@develop
+      with:
+        parallel-finished: true
