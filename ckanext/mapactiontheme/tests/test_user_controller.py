@@ -1,9 +1,14 @@
 from ckan.plugins.toolkit import config
-import ckan.tests.helpers as helpers
 import ckan.tests.factories as factories
 
+from ckanext.mapactiontheme.tests.helpers import FunctionalTestBaseClass
 
-class TestOverrideUserController(helpers.FunctionalTestBase):
+
+class TestOverrideUserController(FunctionalTestBaseClass):
+    @classmethod
+    def setup_class(cls):
+        super(TestOverrideUserController, cls).setup_class()
+
     def setup(self):
         super(TestOverrideUserController, self).setup()
         self.user = factories.User(name='somename', email='user@mapaction.org')
