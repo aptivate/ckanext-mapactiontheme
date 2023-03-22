@@ -9,9 +9,11 @@
 		{% endblock %}
 	  </h1>
 
-	  <div id="g-signin-button">
-      	<span class="icon"></span><span class="button-text">{{ _('Log in with Google') }}</span>
-	  </div>
+      {% set ci=h.googleauth_get_clientid() %}
+      {# data-login_uri omitted for POST to same page #}
+      <div id="g_id_onload" data-client_id="{{ ci }}">
+      </div>
+      <div class="g_id_signin" data-type="standard"></div>
 
       <p>
         {{ _('Google log-in is only available to MapAction team members') }}
