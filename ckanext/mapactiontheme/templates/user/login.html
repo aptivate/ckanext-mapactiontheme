@@ -9,8 +9,8 @@
 		{% endblock %}
 	  </h1>
 
-      {% set ci=h.googleauth_get_clientid() %}
-      {% set uri=h.googleauth_get_loginuri() %}
+      {% set ci="" %}
+      {% set uri="" %}
       <div id="g_id_onload" data-client_id="{{ ci }}" data-login_uri="{{ uri }}" data-auto_prompt="false">
       </div>
       <div class="g_id_signin" data-type="standard"></div>
