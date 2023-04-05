@@ -34,12 +34,3 @@
 
 {% block help_forgotten %}
 {% endblock %}
-
-{% block scripts %}
-{# TODO
-Can't seem to avoid using scripts block (doesn't load in content block)
-- probably because the googleauth plugin uses the scripts block
-#}
-  {{ super() }}
-  {% resource 'mapactiontheme/show-hide.js' %}
-{% endblock %}
